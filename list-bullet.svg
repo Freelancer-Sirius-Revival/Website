@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   version="1.2"
+   viewBox="0 0 28.228426 28.228426"
+   width="16"
+   height="16"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <style
+     id="style1">
+		.s0 { fill: #31b8d2 } 
+		.s1 { fill: none;stroke: #31b8d2;stroke-width: 2 } 
+	</style>
+  <path
+     id="Layer"
+     class="s0"
+     d="m 14.114214,21.214214 7.1,-7.1 -7.1,-7.1000004 -7.1000004,7.1000004 z" />
+  <path
+     id="path1"
+     class="s1"
+     d="m 14.114214,26.814214 12.7,-12.7 -12.7,-12.7000004 L 1.4142136,14.114214 Z" />
+</svg>

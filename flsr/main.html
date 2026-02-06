@@ -1,0 +1,269 @@
+<script>
+    let scrollWaiting = false;
+    const onScrollOnSection = () => 
+    {
+        if (scrollWaiting)
+            return;
+        scrollWaiting = true;
+        window.requestAnimationFrame(() => {
+            const header = document.querySelector('header');
+            const scrollingElement = document.querySelector('html');
+            const scrollOffset = scrollingElement.scrollTop - header.offsetHeight;
+            
+            const entries = [];
+            entries.push({ path: '', element: document.querySelector('#about') });
+            entries.push({ path: 'features', element: document.querySelector('#features') });
+            entries.push({ path: 'rules', element: document.querySelector('#rules') });
+            entries.push({ path: 'map', element: document.querySelector('#map') });
+            entries.push({ path: 'install', element: document.querySelector('#install') });
+            for (const entry of entries)
+            {
+                if (!entry.element)
+                {
+                    document.onscroll = undefined;
+                    document.onresize = undefined;
+                    return;
+                }
+            }            
+
+            scrollWaiting = false;
+        })
+    }
+
+    document.onscroll = onScrollOnSection;
+    document.onresize = onScrollOnSection;
+</script>
+
+<section class="contentBox" id="about">
+    <p>
+        Freelancer: Sirius Revival is a pure multiplayer modification for the 2003 space game <a tabindex="0" class="link" href="https://fl-game.info/" target="_blank" title="Visit the Freelancer website">‘Freelancer’</a>. It touches almost all aspects of the game’s balancing to provide a ‘vanilla plus’ experience. Different and yet familiar to the original game experience. The features, difficulty and story go beyond what the base game offers. For that reason it is strongly recommended to first play the base game’s single player campaign before getting started with FL:SR.
+    </p>
+    <div class="flexContainer">
+        <div class="listBox">
+            <h3>Features</h3>
+            <ul>
+                <li>FL: HD Edition Quality Improvements</li>
+                <li>Ship Insurance &amp; Auto Repair</li>
+                <li>Blueprints &amp; Item Crafting</li>
+                <li>IFF system &amp; Player Carriers</li>
+                <li>…and much more</li>
+            </ul>
+        </div>
+        <div class="listBox">
+            <h3>Rebalances</h3>
+            <ul>
+                <li>All Equipment &amp; Ships</li>
+                <li>Entire Economy &amp; Trading Goods</li>
+                <li>NPCs &amp; Reputation</li>
+                <li>Difficulty Levels across the Entire Universe</li>
+                <li>…and much more</li>
+            </ul>
+        </div>
+    </div>
+    <ul class="buttonList">
+        <li>
+            <a tabindex="0" class="button" onclick="switchToPath('/install')" title="Download & Install">Download &amp; Install</a>
+        </li>
+        <li>
+            <a tabindex="0" class="button" href="https://discord.gg/EkvsQEEtHT" title="Join Discord Server">Join the Discord Server</a>
+        </li>
+    </ul>
+    <div id="gallery" class="slider" data-slide-index="0">
+        <div class="slides">
+            <img src="/flsr/Donau.jpg" />
+            <img src="/flsr/Willard.jpg" />
+            <img src="/flsr/Benford.jpg" />
+            <img src="/flsr/RandomMission.jpg" />
+            <img src="/flsr/Kress.jpg" />
+            <img src="/flsr/EquipDealer.jpg" />
+            <img src="/flsr/Tohoku.jpg" />
+            <img src="/flsr/ShipDealer.jpg" />
+        </div>
+        <button class="sliderArrow" left onclick="scrollToSlideBefore(this)" title="Backwards"></button>
+        <button class="sliderArrow" right onclick="scrollToSlideAfter(this)" title="Forwards"></button>
+    </div>
+    <p>
+        FL:SR is a open source project. See the <a tabindex="0" class="link" href="https://github.com/Freelancer-Sirius-Revival/FLSR" target="_blank" title="Visit FL:SR GitHub">GitHub page</a> of it for further insight.
+    </p>
+</section>
+
+<section class="contentBox" id="features">
+    <h2>Multiplayer-centric Features</h2>
+    <p>
+        To support the multiplayer-focussed approach, a large variety of new features have been introduced.
+    </p>
+    <div class="flexContainer">
+        <div class="listBox">
+            <h3>Quality of Life</h3>
+            <ul>
+                <li>Start your journey in a tutorial system without consequences</li>
+                <li>Insure your mounted equipment and restore it when losing it</li>
+                <li>Enable automatic repair of your ship and gear upon landing</li>
+                <li>Store your money in a global bank across your accounts</li>
+                <li>NPC appearances on the nav-map filterable by friendly, neutral, and hostile</li>
+            </ul>
+        </div>
+        <div class="listBox">
+            <h3>Play Cooperative</h3>
+            <ul>
+                <li>Gain or lose reputation with your group members in a 10k range</li>
+                <li>Docking on player-controlled battleships, liners and mining ships</li>
+                <li>Mark other ships or stations for you and your team</li>
+                <li>Declare other players as enemy or friend</li>
+                <li>See all your group members on the nav-map</li>
+                <li>Group size largely increased</li>
+            </ul>
+        </div>
+        <div class="listBox">
+            <h3>Changed World</h3>
+            <ul>
+                <li>Cruise speed increased to 500m/s</li>
+                <li>Tradelane speed increased to 5000m/s</li>
+                <li>New wrecks, some randomly spawning, to loot as you explore</li>
+                <li>Player-constructed bases to maintain</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<section class="contentBox" id="rebalance">
+    <h2>The Universe Rebalanced</h2>
+    <p>
+        The intrinsic single-player focused nature of Freelancer makes it necessary to rethink the entire gameplay. This is just exactly what FL:SR does.
+    </p>
+    <div class="flexContainer">
+        <div class="listBox">
+            <h3>Ships Rebalanced</h3>
+            <ul>
+                <li>All ships, from fighter to battleship, can be bought</li>
+                <li>Every ship class has its usage and unique traits</li>
+                <li>Even the lightest fighters can be used in late-game</li>
+                <li>Visuals first: Ships of the same class are statistically even</li>
+                <li>New Very Heavy Fighters completing the colonies’ ship lines</li>
+                <li>Wings and other hull components act as shield to eat hits</li>
+                <li>Large ships require large docks</li>
+            </ul>
+        </div>
+        <div class="listBox">
+            <h3>Equipment Remade</h3>
+            <ul>
+                <li>Classes for equipment were reduced to Light, Medium, Heavy, and Special</li>
+                <li>All equipment remade from scratch: Rebalanced to be useful from early to late game</li>
+                <li>Special experimental weapons with unique traits</li>
+                <li>Mining gear to gather your own resources</li>
+                <li>Repair equipment to help your team</li>
+                <li>Hide in plain sight with cloaking devices</li>
+                <li>Optional power modules to further individualize your ship</li>
+                <li>Counter measures don’t drop to space with right-click while being enabled</li>
+            </ul>
+        </div>
+        <div class="listBox">
+            <h3>Trade Overhauled</h3>
+            <ul>
+                <li>Every good and trade route recreated based on the world’s lore</li>
+                <li>Heavy goods add heavy weight to your ship</li>
+                <li>Missions for traders to gain reputation</li>
+            </ul>
+        </div>
+        <div class="listBox">
+            <h3>The World Reacts to You</h3>
+            <ul>
+                <li>Missions of all difficulties can be found anywhere</li>
+                <li>Reputation gain is hard, losing reputation is easy</li>
+                <li>Relative reputation changes revisted based on the factions’s lore</li>
+                <li>NPCs remade from scratch based on rebalanced ships and equipment</li>
+                <li>Cargo scans are no longer announced, and less time to flee without consequences</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<section class="contentBox" id="rules">
+    <h2>Rules</h2>
+    <p>
+        Please understand and follow the rules to keep a civil and positive atmosphere within the community.
+    </p>
+    <div class="listBox">
+        <h3>Community Rules</h3>
+        <ul>
+            <li>Follow common sense. No politics, insults, unsavory behavior.</li>
+            <li>Help your fellow players if they require it.</li>
+            <li>Keep topics to the dedicated Discord channels.</li>
+        </ul>
+    </div>
+    <div class="listBox">
+        <h3>In-Game Rules</h3>
+        <ul>
+            <li>The usage of hacks or cheats is not allowed.</li>
+            <li>It is just a game. Be it PvP or PvE contents.</li>
+            <li>Chose a recognizable and readable character name in fairness to other players. Do not include any political, offensive, or advertising text into names.</li>
+        </ul>
+    </div>
+    <div class="listBox">
+        <h3>Clans/Factions</h3>
+        <ul>
+            <li>Clans playing on the server shall present themselves in the #clan-overview Discord channel. Do use clan tags in the game only with such presentation.</li>
+            <li>Clan lore must not conflict with Freelancer lore and FL:SR’s additions to it.</li>
+        </ul>
+    </div>
+    <div class="listBox">
+        <h3>Role-Play</h3>
+        <ul>
+            <li>Role-Play is optional.</li>
+            <li>Players liking to take up role-playing should be met with respect for it.</li>
+            <li>Your role-playing must not conflict with Freelancer lore and FL:SR’s additions to it.</li>
+            <li>You must not take control over entire existing factions or important lore/story characters. You may be only a part of them.</li>
+            <li>Role-play must follow common rules, as: No power-gaming, no meta-gaming, no god-moding.</li>
+            <li>Large ships (everything without shields) must have lore-friendly names. They start with faction/ship-class designation (2 to 3 letters) followed by the ship name. For NPC factions, follow their naming patterns. For player clans you may pick your own naming patterns with a sense of immersion.</li>
+        </ul>
+    </div>
+</section>
+
+<section class="contentBox" id="map">
+    <h2>Star Map</h2>
+    <iframe id="embeddedMap" src="https://slimythemoon.github.io/FLSRNavmap/"></iframe>
+</section>
+
+<section class="contentBox" id="install">
+    <h2>Download &amp; Install</h2>
+    <p>
+        <h3>Freelancer Base Game</h3>
+        <center>A clean, unmodified, english version of the base game is required to be installed.</center>
+        <ul class="buttonList">
+            <li>
+                <a tabindex="0" class="button" href="https://fl-game.info/install" target="_blank" title="Download Freelancer">Download English Freelancer</a>
+            </li>
+        </ul>
+        <h3>Freelancer: Sirius Revival</h3>
+        <center>The mod launcher will download and install the mod inside the selected clean Freelancer installation. This will overwrite all its files!</center>
+        <ul class="buttonList">
+            <li>
+                <a tabindex="0" class="button" href="/files/FLSR-Launcher.zip" title="Download Freelancer: Sirius Revival">Download Freelancer: Sirius Revival</a>
+            </li>
+        </ul>       
+        <h3>Instructions</h3>
+        <ol>
+            <li>Download &amp; install the english base game of Freelancer. Recommended: Do <b>not</b> install it into the default “Program Files” directory.</li>
+            <li>Optional: Make a fully copy of this clean Freelancer installation if you plan to install more mods on your computer, and name the copy “Freelancer Sirius Revival”.</li>
+            <li>Go to <i>Windows Control Panel</i> &#x2794; <i>Programs</i> &#x2794; <i>Turn Windows Features On or Off</i>, and ensure <i>DirectPlay</i> under <i>Legacy Components</i> is checked.</li>
+            <li>Download the FL:SR Mod Launcher and put it anywhere. Note: The Launcher will save a backup file for all your used Freelancer Accounts just next to it.</li>
+            <li>Start the FL:SR Mod Launcher as Administrator and follow the instructions of the installation wizard. Note: The FL:SR Mod Launcher will install FL:SR directly into the directory you select.</li>
+            <li>Always use the FL:SR Mod Launcher to start the game. This ensures you always will have up-to-date mod files.</li>
+        </ol>
+        <h3>Troubleshooting</h3>
+        <p>
+            If there are troubles installing or running the mod, join our <a tabindex="0" class="link" href="https://discord.gg/EkvsQEEtHT" title="Join Discord Server">Discord Server</a> to get help.
+        </p>
+        <h3>Performance Gain for Ancient Computers</h3>
+        <p>
+            If you are having serious trouble with FL:SR's framerate, do the following:
+        </p>
+        <ol>
+            <li>Do <b>not</b> install <i>Reshade</i></li>
+            <li>Go to FLSR's <i>Freelancer\EXE\</i> directory</li>
+            <li>Open <i>dxwrapper.ini</i> with a text editor</li>
+            <li>Search for <i>AnisotropicFiltering</i>and <i>AntiAliasing</i></li>
+            <li>Set their values to <i>0</i> and save</li>
+        </ol>
+    </p>
+</section>

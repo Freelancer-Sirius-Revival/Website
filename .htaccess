@@ -1,0 +1,6 @@
+<ifModule mod_rewrite.c>
+    IndexIgnore */*
+    RewriteEngine On
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule (.*) index.html [NC,QSA,L]
+</ifModule>

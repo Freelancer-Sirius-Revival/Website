@@ -1,213 +1,254 @@
 <!doctype html>
-<html>
-<head>
+<html lang="en">
+    <head>
     <title>Freelancer: Sirius Revival</title>
-	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
-	<meta charset="UTF-8">
-	<meta content="text">
-	<meta name="title" content="Freelancer: Sirius Revival" />
-	<meta name="content-language" content="en" />
-	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-	<link rel="icon" href="favicon.ico" type="image/x-icon" />
-	<link href="resources/flsr.css" rel="stylesheet" type="text/css" />
-	<meta name="keywords" content="Sirius Revival,Freelancer,Microsoft,Game,Space,FL,Nomads,Rheinland,Liberty,Kusari,Bretonia,Hispania,Mod,Role play,RP" />
-</head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="keywords" content="freelancer,space,action,game,roleplay,fun,retro,multiplayer,mod,sirius,revival" />
+        <meta name="description" content="FL:SR is a multiplayer modification for the 2003 space game ‘Freelancer’. It touches almost all aspects of the game’s balancing to provide a ‘vanilla plus’ experience. Different and yet familiar to the original game experience." />
+        <link rel="icon" href="/flsr.ico" type="image/x-icon" />
+        <link rel="stylesheet" href="/flsr.css" />
+    </head>
+    <style>html { background-color: #242345 }</style>
+    <script>
+        function scrollToElement(selector)
+        {
+            let targetPosition = 0;
+            if (selector)
+            {
+                const headerElement = document.querySelector('header');
+                const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+                const rect = document.querySelector(selector).getBoundingClientRect();
+                targetPosition = scrollTop + rect.top - headerElement.clientHeight;
+            }
+            document.body.scrollTo({ top: targetPosition });
+            document.documentElement.scrollTo({ top: targetPosition });
+            const navigationElement = document.querySelector('#navigation');
+            navigationElement.setAttribute('hidden', '');
+        }
 
-<header><img src="resources/FreelancerSiriusRevival.png"/></header>
+        async function loadPageContents(resourceUrl)
+        {
+            try
+            {
+                const response = await fetch(resourceUrl);
+                if (response.ok)
+                {
+                    const mainElement = document.querySelector('main');
+                    mainElement.innerHTML = await response.text();
+                    // If the imported HTML contains any script, execute it.
+                    const scriptElements = mainElement.querySelectorAll('script');
+                    for (const script of scriptElements)
+                        // Execute contents of eval in an async function to allow arbitrary async code to be executed.
+                        eval(`(async () => {${script.innerText}})()`);
+                }
+            }
+            catch (error)
+            {
+                console.error(`Cannot load ${resourceUrl}: `, error);
+            }
+        }
 
-<main>
-	<h1>About</h1>
+        const defaultContentName = '/flsr/main.html';
 
-	<p>
-	Freelancer: Sirius Revival is a multiplayer-only modifaction for Freelancer. It overhauls the entire game with a strong focus on multiplayer (single-player being disabled).
-	The mod's aim is to remain as lore-friendly as possible and only add content when necessary. The principle is to offer original content reworked primarily, to keep the original atmosphere of the game.
-	</p>
+        const validPaths = {
+            '/features': {
+                contentName: defaultContentName,
+                anchor: 'features'
+            },
+            '/rules': {
+                contentName: defaultContentName,
+                anchor: 'rules'
+            },
+            '/map': {
+                contentName: defaultContentName,
+                anchor: 'map'
+            },
+            '/install':
+            {
+                contentName: defaultContentName,
+                anchor: 'install'
+            }
+        };
 
-    <h2><a href="https://discord.gg/EkvsQEEtHT">Join our Discord Server!</a></h2>
+        function addValidPath(path, options)
+        {
+            validPaths[path] = options;
+        }
 
-	<hr />
+        function activateNavigationEntry(path)
+        {
+            const entries = document.querySelectorAll('#navigation .naventry');
+            for (const entry of Array.from(entries))
+                entry.removeAttribute('active');
 
-	<details open="open">
-	<summary><a><h1>Download &amps Installation</h1></a></summary>
+            path = path.startsWith('/') ? path.substring(1, path.length) : path;
+            path = path.split('/').at(0);
+            if (!path)
+                path = 'about';
+            const element = document.querySelector(`#navigation #nav-${path}`);
+            if (element)
+                element.setAttribute('active', '');
+        }
 
-		<p>The mod comes with its own launcher to download the necessary files and keep them always updated.</p>
-		<ol>
-			<li>An english original and unmodified version of Freelancer is required. The mod will permanently modify the selected Freelancer installation. Make a copy of it before!</li>
-			<li>Download the <a href="files/FLSR-Launcher.zip"><b>Freelancer: Sirius Revival Launcher</b></a> to install the mod.</li>
-			<li>If you installed Freelancer on Windows in the default path (<code>C:\Program Files...</code>) you must start the Launcher with Admin Rights.</li>
-			<li>To play Freelancer: Sirius Revival, please always use the launcher. This ensures that all files are up to date.</li>
-		</ol>
+        async function switchToPath(path, pushState = true)
+        {
+            path = path.endsWith('/') ? path.substring(0, path.length - 1) : path;
+            path = path.toLowerCase();
 
-		<details>
-			<summary><a><b>Error messages in the Launcher</b></a></summary>
-			
-			<p>
-			<b>Error:</b> Could not load list of updates!<br />
-			<b>Answer:</b> Make sure your firewall does not block the launcher. If it still does not work, the download server might be unreachable.
-			</p>
+            let pathEntry;
+            if (path in validPaths)
+                pathEntry = validPaths[path];
+                
+            if (pathEntry && pathEntry.externalLink)
+            {
+                window.location.href = pathEntry.externalLink;
+                return;
+            }
 
-			<p>
-			<b>Error:</b> List of updates is invalid!<br />
-			<b>Answer:</b> The download went wrong. Please press "Check Mod" again.
-			</p>
+            if (pushState)
+                window.history.pushState(null, '', pathEntry ? path : '/');
 
-			<p>
-			<b>Error:</b> Error while updating!<br />
-			<b>Answer:</b> If your mod is being installed to <code>C:\Programm Files...</code> please start the launcher with Admin Rights. If it still does not work, the download server might be unreachable.
-			</p>
+            activateNavigationEntry(path);
+            
+            await loadPageContents(pathEntry && pathEntry.contentName ? pathEntry.contentName : defaultContentName);
 
-			<p>
-			<b>Error:</b> List of updates incomplete!<br />
-			<b>Answer:</b> The download went wrong. Please press "Check Mod" again.
-			</p>
-		</details>
+            if (pathEntry && pathEntry.anchor)
+                requestAnimationFrame(() => scrollToElement(`#${pathEntry.anchor}`));
+            else
+                scrollToElement('');
+        }
+    </script>
+    <body>
+        <header>
+            <hgroup>
+                <h1>SIRIUS REVIVAL</h1>
+                <p>Freelancer in Multiplayer</p>
+            </hgroup>
+            <script>
+                function scrollSliderTo(sliderElement, slideIndex)
+                {
+                    sliderElement.dataset.slideIndex = slideIndex;
+                    const slidesElement = sliderElement.querySelector('.slides');
+                    slidesElement.scrollTo({ left: slideIndex * slidesElement.clientWidth });
+                }
 
-		<p><small><a href="https://github.com/erikroe/flsr-launcher">FL:SR Launcher GitHub Repository</a></small></p>
-	</details>
+                function scrollToSlideBefore(element)
+                {
+                    const sliderElement = element.parentElement;
+                    const currentIndex = Number.parseInt(sliderElement.dataset.slideIndex);
+                    const slidesElement = sliderElement.querySelector('.slides');
+                    sliderElement.dataset.manuallySet = 'true';
+                    scrollSliderTo(sliderElement, currentIndex === 0 ? slidesElement.childElementCount - 1 : currentIndex - 1)
+                }
 
-	<hr />
+                function scrollToSlideAfter(element)
+                {
+                    const sliderElement = element.parentElement;
+                    const currentIndex = Number.parseInt(sliderElement.dataset.slideIndex);
+                    const slidesElement = sliderElement.querySelector('.slides');
+                    sliderElement.dataset.manuallySet = 'true';
+                    scrollSliderTo(sliderElement, currentIndex + 1 < slidesElement.childElementCount ? currentIndex + 1 : 0)
+                }
+            </script>
+        </header>
+        <script>
+            let scrollRequestQueued = false;
+            window.addEventListener('scroll', () => {
+                if (!scrollRequestQueued)
+                {
+                    scrollRequestQueued = true;
+                    requestAnimationFrame(() => {
+                        const headerElement = document.querySelector('header');
+                        const navigationElement = document.querySelector('#navigation');
+                        const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+                        if (scrollTop > 64)
+                        {
+                            headerElement.setAttribute('condensed', '');
+                            navigationElement.setAttribute('condensed', '');
+                        }
+                        else
+                        {
+                            headerElement.removeAttribute('condensed');
+                            navigationElement.removeAttribute('condensed');
+                        }                        
+                        scrollRequestQueued = false;
+                    })
+                }
+            }, { passive: true });
 
-	<details>
-		<summary><a><h1>Feature List</h1></a></summary>
+            function toggleNavigation()
+            {
+                const navigationElement = document.querySelector('#navigation');
+                if (navigationElement.hasAttribute('hidden'))
+                    navigationElement.removeAttribute('hidden');
+                else
+                    navigationElement.setAttribute('hidden', '');
+            }
+        </script>
 
-        <h2>General</h2>
-        <ul>
-            <li>Fixed various original game bugs </li>
-            <li>Increased Cruise speed to 500 m/s</li>
-            <li>Increased Trade Lane speed to 5000 m/s</li>
-            <li>Increased docking and undocking speed</li>
-            <li>Maximum amount of credits increased to 2,147,483,647</li>
-            <li>All ships (except Nomads) can be acquired</li>
-            <li>Big ships use mooring points on planets and stations</li>
-            <li>Ship sale with 75% of the original value</li>
-            <li>Death Penalty based on ship, equipment and cargo value </li>
-            <li>Increased repair costs</li>
-            <li>NPCs spawn and unspawn at 5k distance (original 2.5k)</li>
-            <li>Enemy jump gates cannot be docked at</li>
-            <li>NPC scan cargo much earlier and leave less time to flee</li>
-            <li>NPCs tractor in cargo</li>
-            <li>Physical collisions cause much more damage</li>
-            <li>Exchangable Engines</li>
-            <li>Exchangable Power Plants</li>
-            <li>Dockable player battleships/liners (need to be in the same player group)</li>
-        </ul>
+        <nav id="navigation" hidden>
+            <div>
+                <ul>
+                    <li><a tabindex="0" id="nav-about" class="naventry" title="About" onclick="switchToPath('/')">About</a></li>
+                    <li><a tabindex="0" id="nav-features" class="naventry" title="Features" onclick="switchToPath('/features')">Features</a></li>
+                    <li><a tabindex="0" id="nav-rules" class="naventry" title="Rules" onclick="switchToPath('/rules')">Rules</a></li>
+                    <li><a tabindex="0" id="nav-map" class="naventry" title="Map" onclick="switchToPath('/map')">Map</a></li>
+                    <li><a tabindex="0" id="nav-install" class="naventry" title="Download & Install" onclick="switchToPath('/install')">Download &amp; Install</a></li>
+                </ul>
+                <button id="navigationToggle" title="Toggle Navigation" onclick="toggleNavigation()">
+                    <div></div>
+                    <div></div>
+                </button>
+            </div>
+        </nav>
 
-        <h2>HUD/UI</h2>
-        <ul>
-            <li>Higher resolution textures and interface </li>
-            <li>Working filter of zones/patrol routes by enemy or friendly on map</li>
-            <li>Additional interface for targtting and seeing status of own and enemy ships</li>
-            <li>New icons for equipment, ships and goods</li>
-        </ul>
+        <main></main>
 
-        <h2>Balancing</h2>
-        <ul>
-            <li>Overhauled NPC spawns: NPCs of all levels can be found across the universe – can be very challenging!</li>
-            <li>Overhauled Mission offers: Mission of all levels can be found across the universe</li>
-            <li>Overhauled Weapons and Equipment: Everything was redesigned from scratch with focus on multiplayer experience</li>
-            <li>Overhauled Shield balancing: Weapon types and shield types influence each other much more</li>
-            <li>Overhauled Ship balancing: Ships of similar classes have very similar statistics and behaviour</li>
-            <li>Reputation only acquirable by destroying ships and objects (exception for Bounty Hunters and Zoners). Missions give no more reputation (except for Bounty Hunters).</li>
-            <li>Mass of ships, equipment, and cargo influences on manouverability</li>
-            <li>Firing "around corners" for players reduced to 15° (original 40°)</li>
-            <li>Redesigned Artefact Weapons (former Class 10) with all unique mechanics</li>
-            <li>Reworked trading goods prices, mass and cargo-hold volumes</li>
-        </ul>
+    </body>
 
-        <h2>Additions</h2>
-        <ul>
-            <li>Increased visibility range of objects</li>
-            <li>New Effects & Sounds</li>
-            <li>New Equipment</li>
-            <li>New Goods</li>
-            <li>New very heavy fighters for Liberty, Rheinland, Kusari and Blood Dragons</li>
-            <li>Tutorial System for easy and forgiving introduction, and start jump into every colony</li>
-            <li>Access to Alaska and Tohoku and more</li>
-            <li>Mining zones for Mining Ships with plenty of unique loot per asteroid</li>
-        </ul>
-	</details>
+    <script>
+        const sliders = Array.from(document.querySelectorAll('.slider'));
+        let resizeRequestQueued = false;
+        window.addEventListener('resize', () => {
+            if (!resizeRequestQueued)
+            {
+                resizeRequestQueued = true;
+                requestAnimationFrame(() => {
+                    for (const slider of sliders)
+                    {
+                        const slideIndex = Number.parseInt(slider.dataset.slideIndex);
+                        scrollSliderTo(slider, slideIndex);
+                    }
+                    resizeRequestQueued = false;
+                })
+            }
+        }, { passive: true });
 
-	<hr />
+        function isInVerticalViewport(element)
+        {
+            const rect = element.getBoundingClientRect();
+            const heightTolerance = rect.height / 4;
+            return  rect.top >= -heightTolerance &&
+                    rect.bottom <= (window.innerHeight + heightTolerance);
+        }
 
-	<details>
-		<summary><a><h1>Credits</h1></a></summary>
+        setInterval (() => {
+            for (const slider of sliders)
+            {
+                if (!slider.dataset.manuallySet && isInVerticalViewport(slider))
+                {
+                    const slideIndex = Number.parseInt(slider.dataset.slideIndex);
+                    const slidesElement = slider.querySelector('.slides');
+                    scrollSliderTo(slider, slideIndex + 1 < slidesElement.childElementCount ? slideIndex + 1 : 0);
+                }
+            }
+        }, 5000);
 
-		<p>This mod is possible thanks to the great work of many individuals, even those not named here by giving input and suggestions over the years. Thank you!</p>
-
-        <ul>
-            <li>Adoxa, for many useful plugins and hacks</li>
-            <li>Imhotep, for designing some space stations</li>
-            <li>Treewyrm, for the great Nomad ship models, texture and effects</li>
-            <li>|~Râdîant~|, for HD textures of planets</li>
-            <li>DAVENAT0R, for the new HUD looks and system backgrounds</li>
-            <li>Valve and Digital Anvil, for some sound effects from their games</li>
-            <li>Why485, for some effects</li>
-            <li>Thaddeus, for the reworked improvde Trade Lane Ring</li>
-            <li>Jeider and WhiskasTM, for the advanced HUD (3d-targeting of ships, weapon groups)</li>
-            <li>XxSARGExX979, for all the NPC and equipment balancing, and many new effects</li>
-            <li>Skotty, for the initial mod and general work on every corner of it</li>
-            <li>BC46 for fixed texts and improved HUD icons</li>
-            <li>More that may have been forgotten to list here (will be expanded if so)</li>
-        </ul>
-	</details>
-
-	<hr />
-
-	<details>
-		<summary><a><h1>FL:SR Server Rules</h1></a></summary>
-
-		<h2>General</h2>
-		<ol>
-			<li>The usage of hacks or cheats is not allowed.</li>
-			<li>Follow common sense. No insults or any other unsavoury behaviour.</li>
-			<li>It is just a game. Be it PvP or PvE contents.</li>
-			<li>Help your fellow players if they require it.</li>
-			<li>Characters with inappropriate names will be removed.</li>
-			<li>Loss of items or progress due bugs of the mod will be replaced on request.</li>
-		</ol>
-
-		<h2>Clans</h2>
-		<ol>
-			<li>Clans playing on the server shall present themselves in the <code>#clan-overview</code> on our <a href="https://discord.gg/GMtyM57egU">Discord Server</a>. Do use clan tags in the game only with such presentation.</li>
-			<li>Clan descriptions must not conflict with Freelancer lore and FL:SR’s additions to it.</li>
-		</ol>
-		
-		<h2>Role Play Aspects</h2>
-		<ol>
-			<li>Name your characters with ships bigger than freighters appropriately. Example: "BAF-London" or "Transport-Alpes". Renames can be requested for free by an server admin.</li>
-			<li>Players liking to take up role-playing should be met with respect for it. However, role-play as such is purely optional.</li>
-			<li>Your role-playing must not conflict with Freelancer lore and FL:SR’s additions to it.</li>
-			<li>You must not take control over entire existing factions or important lore/story characters. You may be only a part of them.</li>
-			<li>Role-play must be done within the usual rule-set: No power-gaming, no meta-gaming, no god-moding.</li>
-		</ol>
-	</details>
-
-	<hr />
-
-	<details>
-		<summary><a><h1>Star Map</h1></a></summary>
-		<center><div class="map"><img src="resources/Sirius.jpg"/></div></center>
-	</details>
-
-	<hr />
-
-	<details>
-		<summary><a><h1>Special Controls Setup</h1></a></summary>
-
-		<p>The mod contains special functionality you can set up by the right controls setting.</p>
-
-        <ul>
-            <li>Hiding the entire UI: Secondary Key of "Minimize HUD" option</li>
-        </ul>
-	</details>
-
-	<hr />
-
-	<details>
-		<summary><a><h1>Chat Commands</h1></a></summary>
-
-		<p>Please use the <code>/help</code> command in the game's chat to get a full and always up-to-date list of commands.</p>
-	</details>
-</main>
-</body>
+        window.addEventListener('pageshow', (event) => {
+            if (!event.persisted)
+                switchToPath(new URL(window.location).pathname);
+        });
+        window.addEventListener('popstate', () => switchToPath(new URL(window.location).pathname, false));
+    </script>
 </html>
