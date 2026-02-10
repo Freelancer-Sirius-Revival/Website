@@ -58,7 +58,7 @@ header
     right: 0;
     left: 0;
     overflow: hidden;
-    background-image: linear-gradient(rgb(4, 24, 38), rgb(8, 45, 71));
+    background-image: linear-gradient(rgb(16, 30, 60), rgb(4, 15, 30));
     height: 128px;
     border-bottom: 2px solid rgb(49, 184, 210);
     box-shadow: 0 -16px 16px 16px rgb(49, 184, 210);
@@ -225,7 +225,7 @@ header[condensed] hgroup p
 {
     content: '';
     z-index: -1;
-    background-color: rgb(8, 45, 71);
+    background-color: rgb(4, 15, 30);
     display: block;
     position: absolute;
     top: 0;
@@ -407,7 +407,7 @@ video
     box-sizing: border-box;
     max-width: 1024px;
     height: min-content;
-    background-color: rgba(8, 45, 71, 0.7);
+    background-color: rgba(4, 15, 30, 0.7);
     padding: 16px;
     margin: 32px 0;
     overflow: hidden;
