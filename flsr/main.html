@@ -14,7 +14,7 @@
             entries.push({ path: '', element: document.querySelector('#about') });
             entries.push({ path: 'features', element: document.querySelector('#features') });
             entries.push({ path: 'rules', element: document.querySelector('#rules') });
-            entries.push({ path: 'map', element: document.querySelector('#map') });
+            entries.push({ path: 'map-data', element: document.querySelector('#map-data') });
             entries.push({ path: 'install', element: document.querySelector('#install') });
             for (const entry of entries)
             {
@@ -219,9 +219,15 @@
     </div>
 </section>
 
-<section class="contentBox" id="map">
-    <h2>Star Map</h2>
-    <iframe id="embeddedMap" src="https://slimythemoon.github.io/FLSRNavmap/"></iframe>
+<section class="contentBox" id="map-data">
+    <h2>Map &amp; Data Tables</h2>
+    <center>(No official support. Fan-made by Darkwind)</center>
+    <ul class="buttonList">
+        <li>
+            <a tabindex="0" class="button" href="https://darklab8.github.io/fl-data-flsr/dark.html" target="_blank" title="Open “DarkStat” Game Data Tables">Open “DarkStat” Game Data Tables</a>
+        </li>
+    </ul>   
+    <iframe id="embeddedMap" src="https://darklab8.github.io/fl-data-flsr/map.html"></iframe>
 </section>
 
 <section class="contentBox" id="install">
