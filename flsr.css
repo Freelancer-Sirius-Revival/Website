@@ -586,8 +586,15 @@ h4:first-of-type
     border-bottom: 2px solid rgb(247, 239, 107);
 }
 
-
-
+.playersonline
+{
+    display: block;
+    margin: 0 auto 1em auto;
+    max-width: 100%;
+    width: 880px;
+    border: none;
+    box-shadow: 0 0 12px 4px black;
+}
 
 .slider
 {
